@@ -11,6 +11,17 @@ class KeyGenerator
       key << rand(1..9)
     end
     return key
+    # is this truly random ?
+  end
+
+  def define_rotations(key)
+    rotations = []
+    key.each_with_index do |digit, index|
+      rotation = key[index..index + 1].join.to_i
+      rotations << rotation
+    end
+    rotations.pop
+    return rotations
   end
 
 end
