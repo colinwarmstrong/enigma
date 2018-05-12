@@ -19,4 +19,11 @@ class OffsetsCalculatorTest < Minitest::Test
     assert_instance_of Integer, date_in_numeric_form
   end
 
+  def test_it_can_square_numeric_date
+    offsets_calculator = OffsetsCalculator.new
+    numeric_date = 150218
+
+    assert_equal 22565447524, offsets_calculator.square_numeric_date(numeric_date)
+  end
+
 end

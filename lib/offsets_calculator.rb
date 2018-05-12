@@ -19,4 +19,13 @@ class OffsetsCalculator
     return numeric_date
   end
 
+  def square_numeric_date(numeric_date)
+    return numeric_date ** 2
+  end
+
+
+
+
+
+
 end
