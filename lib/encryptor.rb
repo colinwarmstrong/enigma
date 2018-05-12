@@ -15,6 +15,26 @@ class Encryptor
     return shifts
   end
 
-
+  def creates_character_map
+    single_character_map = []
+    ("a".."z").each do |lowercase_letter|
+      single_character_map << lowercase_letter
+    end
+    ("A".."Z").each do |uppercase_letter|
+      single_character_map << uppercase_letter
+    end
+    ("0".."9").each do |number|
+      single_character_map << number
+    end
+    single_character_map << [' ', '!', '@', '#', '$', '%', '^', '&']
+    single_character_map << ['*', '(', ')', '[', ']', ',', '.', '<']
+    single_character_map << ['>', ';', ':', '/', '?', "\\", '|' ]
+    single_character_map.flatten!
+    3.times do
+      @character_map << single_character_map
+    end
+    @character_map.flatten!
+    # revisit maybe use rotate method on array
+  end
 
 end

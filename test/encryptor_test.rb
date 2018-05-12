@@ -20,5 +20,15 @@ class EncryptorTest < Minitest::Test
     assert_equal [4, 6, 8, 10], encryptor.calculating_shifts
   end
 
+  def test_has_character_map
+    encryptor = Encryptor.new(message, [2, 3, 4, 5], [2, 3, 4, 5])
+    character_map = encryptor.creates_character_map
+
+    assert character_map.include?("a")
+    assert character_map.include?("8")
+    assert character_map.include?(",")
+    assert character_map.include?("B")
+    assert_equal 255, character_map.length
+  end
 
 end
