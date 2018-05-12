@@ -1,8 +1,11 @@
+require './lib/key_generator'
+require './lib/offsets_calculator'
+
 class Enigma
 
-  def initialize(rotations, offsets)
-    @rotations = rotations
-    @offsets = offsets
+  def initialize
+    @rotations = KeyGenerator.new.define_rotations
+    @offsets = OffsetsCalculator.new.define_offsets
     @character_map = []
   end
 
@@ -75,6 +78,30 @@ class Enigma
       end
     end
     return decrypted_array.join("")
+  end
+
+  def find_last_four_encrypted_characters(encrypted_message)
+    encrypted_message_split = split_message_every_four_characters(encrypted_message)
+    if encrypted_message_split[-1].length == 4
+      last_full_block = encrypted_message_split[-1]
+    else
+      last_full_block = encrypted_message_split[-2]
+    end
+    return last_full_block
+  end
+
+  def find_last_four_decrypted_characters(encrypted_message)
+    encrypted_message_split = split_message_every_four_characters(encrypted_message)
+    if encrypted_message_split[-1].length == 3
+      decrypted_ending = [".", ".", "e", "n"]
+    elsif encrypted_message_split[-1].length == 2
+      decrypted_ending = [".", "e", "n", "d"]
+    elsif encrypted_message_split[-1].length == 1
+      decrypted_ending = ["e", "n", "d", "."]
+    else
+      decrypted_ending = ["n", "d", ".", "."]
+    end
+    return decrypted_ending
   end
 
 end

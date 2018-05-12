@@ -26,11 +26,9 @@ class KeyGeneratorTest < Minitest::Test
   def test_it_can_define_4_rotations_when_passed_a_key
     key_generator = KeyGenerator.new
 
-    rotations = key_generator.define_rotations([1, 2, 3, 4, 5])
-    assert_equal 12, rotations[0]
-    assert_equal 23, rotations[1]
-    assert_equal 34, rotations[2]
-    assert_equal 45, rotations[3]
+    rotations = key_generator.define_rotations
+    assert_equal 4, rotations.length
+    assert_instance_of Integer, rotations[0]
   end
 
 end
