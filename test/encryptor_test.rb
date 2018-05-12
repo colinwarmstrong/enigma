@@ -31,4 +31,13 @@ class EncryptorTest < Minitest::Test
     assert_equal 255, character_map.length
   end
 
+  def test_can_split_message_into_four_characters
+    message = "Hello1!"
+    encryptor = Encryptor.new(message, [2, 3, 4, 5], [2, 3, 4, 5])
+
+    assert_equal 4, encryptor.split_message_every_4_characters[0].length
+  end
+
+
+
 end

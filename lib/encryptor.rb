@@ -37,4 +37,13 @@ class Encryptor
     # revisit maybe use rotate method on array
   end
 
+  def split_message_every_4_characters
+    split_message = []
+    message_array = @message.split('')
+    while message_array.length != 0
+      split_message << message_array.shift(4)
+    end
+    return split_message
+  end
+
 end
