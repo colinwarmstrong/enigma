@@ -26,4 +26,10 @@ class OffsetsCalculatorTest < Minitest::Test
     assert_equal 22565447524, offsets_calculator.square_numeric_date(numeric_date)
   end
 
+  def test_if_we_can_find_last_four_digits_of_numeric
+    offsets_calculator = OffsetsCalculator.new
+
+    assert_equal ['2', '3', '4', '1'], offsets_calculator.find_last_four_digits_of_squared_numeric(92341)
+  end
+
 end

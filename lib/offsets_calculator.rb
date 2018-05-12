@@ -23,9 +23,12 @@ class OffsetsCalculator
     return numeric_date ** 2
   end
 
-
-
-
-
+  def find_last_four_digits_of_squared_numeric(squared_numeric)
+    last_four_digits = []
+    squared_numeric_array = squared_numeric.to_s.split("")
+    last_four_digits.push(squared_numeric_array[-4..-1])
+    last_four_digits.flatten!
+    return last_four_digits
+  end
 
 end
