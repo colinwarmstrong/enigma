@@ -1,5 +1,4 @@
 require 'date'
-require 'pry'
 
 class OffsetsCalculator
 
@@ -29,6 +28,16 @@ class OffsetsCalculator
     last_four_digits.push(squared_numeric_array[-4..-1])
     last_four_digits.flatten!
     return last_four_digits
+  end
+
+  def define_offsets
+    numeric_date = format_date_to_numeric
+    numeric_date_squared = square_numeric_date(numeric_date)
+    last_four_digits = find_last_four_digits_of_squared_numeric(numeric_date_squared)
+    offsets = last_four_digits.map do |digit|
+      digit.to_i
+    end
+    return offsets
   end
 
 end

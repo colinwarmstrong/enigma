@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'date'
 require './lib/offsets_calculator.rb'
+require 'date'
 
 class OffsetsCalculatorTest < Minitest::Test
 
@@ -30,6 +30,13 @@ class OffsetsCalculatorTest < Minitest::Test
     offsets_calculator = OffsetsCalculator.new
 
     assert_equal ['2', '3', '4', '1'], offsets_calculator.find_last_four_digits_of_squared_numeric(92341)
+  end
+
+  def test_if_we_return_correct_offsets
+    offsets_calculator = OffsetsCalculator.new
+
+    assert_instance_of Array, offsets_calculator.define_offsets
+    assert_equal 4, offsets_calculator.define_offsets.count
   end
 
 end
