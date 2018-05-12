@@ -1,8 +1,5 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require './lib/offsets_calculator.rb'
-require './lib/enigma'
-require './lib/key_generator'
+require './test/test_helper.rb'
+require './lib/enigma.rb'
 
 class EnigmaTest < Minitest::Test
 
@@ -43,6 +40,10 @@ class EnigmaTest < Minitest::Test
     enigma = Enigma.new([2, 3, 4, 5], [2, 3, 4, 5])
 
     assert_equal "Lktvs7(", enigma.encrypt(message)
+  end
+
+  def test_can_a_different_message
+    # is this redundant or helpful?
   end
 
   def test_can_decrypt_a_message
