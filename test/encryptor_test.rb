@@ -35,9 +35,14 @@ class EncryptorTest < Minitest::Test
     message = "Hello1!"
     encryptor = Encryptor.new(message, [2, 3, 4, 5], [2, 3, 4, 5])
 
-    assert_equal 4, encryptor.split_message_every_4_characters[0].length
+    assert_equal 4, encryptor.split_message_every_four_characters[0].length
   end
 
+  def test_can_encrypt_a_message
+    message = "Hello1!"
+    encryptor = Encryptor.new(message, [2, 3, 4, 5], [2, 3, 4, 5])
 
+    assert_equal ["L", "k", "t", "v", "s", "7", "("], encryptor.encrypt
+  end
 
 end

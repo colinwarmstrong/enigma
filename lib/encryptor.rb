@@ -37,13 +37,29 @@ class Encryptor
     # revisit maybe use rotate method on array
   end
 
-  def split_message_every_4_characters
+  def split_message_every_four_characters
     split_message = []
     message_array = @message.split('')
     while message_array.length != 0
       split_message << message_array.shift(4)
     end
     return split_message
+  end
+
+  def encrypt
+    encrypted_array = []
+    creates_character_map
+    shifts = calculating_shifts
+    split_message = split_message_every_four_characters
+
+    split_message.each do |four_characters|
+      four_characters.each_with_index do |character, index|
+        starting_index = @character_map.index(four_characters[index])
+        encrypted_index = starting_index + shifts[index]
+        encrypted_array << @character_map[encrypted_index]
+      end
+    end
+    return encrypted_array
   end
 
 end
