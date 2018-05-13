@@ -49,10 +49,10 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_can_decrypt_a_message
-    encrypted_message = "Lktvs7("
+    encrypted_message = "Hello1!..end.."
     enigma = Enigma.new
 
-    assert_equal 7, enigma.decrypt(encrypted_message).length
+    assert_equal 14, enigma.decrypt(encrypted_message).length
     assert_instance_of String, enigma.decrypt(encrypted_message)
   end
 
@@ -79,6 +79,13 @@ class EnigmaTest < Minitest::Test
 
     assert_instance_of Array, enigma.crack_shifts(encrypted_message)
     assert_equal 4, enigma.crack_shifts(encrypted_message).length
+  end
+
+  def test_can_crack_encrypted_message
+    enigma = Enigma.new
+    encrypted_message = enigma.encrypt("Hello1!..end..")
+
+    assert_equal enigma.decrypt(encrypted_message), enigma.crack(encrypted_message)
   end
 
 
