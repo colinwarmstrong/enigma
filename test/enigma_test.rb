@@ -75,9 +75,10 @@ class EnigmaTest < Minitest::Test
 
   def test_finding_shift_numbers
     enigma = Enigma.new
+    encrypted_message = "Lktvs7("
 
-    assert_instance_of Array, enigma.find_shift_numbers
-    assert_equal 4, enigma_find_shift_numbers
+    assert_instance_of Array, enigma.crack_shifts(encrypted_message)
+    assert_equal 4, enigma.crack_shifts(encrypted_message).length
   end
 
 

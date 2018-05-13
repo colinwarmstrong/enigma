@@ -104,4 +104,20 @@ class Enigma
     return decrypted_ending
   end
 
+  def crack_shifts(encrypted_message)
+    shifts = []
+    create_character_map
+    last_four_encrypted = find_last_four_encrypted_characters(encrypted_message)
+    last_four_decrypted = find_last_four_decrypted_characters(encrypted_message)
+
+    last_four_encrypted.each_with_index do |character, i|
+      decrypted_index = @character_map.index(last_four_decrypted[i])
+      encrypted_index = @character_map.index(last_four_encrypted[i])
+      shifts << (decrypted_index - encrypted_index).abs
+    end
+     return shifts
+  end
+
+
+
 end
