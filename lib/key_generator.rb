@@ -5,24 +5,13 @@ class KeyGenerator
     @key_length = 5
   end
 
-  def generate_random_number
+  def generate_key
     key = []
     @key_length.times do
       key << rand(1..9)
     end
-    return key
+    return key.join
     # is this truly random ?
-  end
-
-  def define_rotations
-    key = generate_random_number
-    rotations = []
-    key.each_with_index do |digit, index|
-      rotation = key[index..index + 1].join.to_i
-      rotations << rotation
-    end
-    rotations.pop
-    return rotations
   end
 
 end
