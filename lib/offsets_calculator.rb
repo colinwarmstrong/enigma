@@ -30,7 +30,7 @@ class OffsetsCalculator
     return last_four_digits
   end
 
-  def define_offsets
+  def define_offsets()
     numeric_date = format_date_to_numeric
     numeric_date_squared = square_numeric_date(numeric_date)
     last_four_digits = find_last_four_digits_of_squared_numeric(numeric_date_squared)

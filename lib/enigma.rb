@@ -1,12 +1,27 @@
 require './lib/key_generator'
 require './lib/offsets_calculator'
+require 'date'
+require 'pry'
 
 class Enigma
 
-  def initialize
-    @rotations = KeyGenerator.new.define_rotations
+  def initialize(key = KeyGenerator.new.generate_key, date = Date.today)
+    @key = key.chars
+    # binding.pry
+    @date = date
+    @rotations = define_rotations
     @offsets = OffsetsCalculator.new.define_offsets
     @character_map = []
+  end
+
+  def define_rotations
+    rotations = []
+    @key.each_with_index do |digit, index|
+      rotation = @key[index..index + 1].join.to_i
+      rotations << rotation
+    end
+    rotations.pop
+    return rotations
   end
 
   def calculating_shifts
@@ -53,10 +68,12 @@ class Enigma
     create_character_map
     shifts = calculating_shifts
     split_message = split_message_every_four_characters(message)
+    # binding.pry
 
     split_message.each do |four_characters|
       four_characters.each_with_index do |character, index|
-        starting_index = @character_map.index(four_characters[index])
+        starting_index = @character_map.index(character)
+        # binding.pry
         encrypted_index = starting_index + shifts[index]
         encrypted_array << @character_map[encrypted_index]
       end
