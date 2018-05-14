@@ -14,7 +14,8 @@ class KeyGenerator
     # is this truly random ?
   end
 
-  def define_rotations(key)
+  def define_rotations
+    key = generate_random_number
     rotations = []
     key.each_with_index do |digit, index|
       rotation = key[index..index + 1].join.to_i

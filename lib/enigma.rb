@@ -1,8 +1,11 @@
+require './lib/key_generator'
+require './lib/offsets_calculator'
+
 class Enigma
 
-  def initialize(rotations, offsets)
-    @rotations = rotations
-    @offsets = offsets
+  def initialize
+    @rotations = KeyGenerator.new.define_rotations
+    @offsets = OffsetsCalculator.new.define_offsets
     @character_map = []
   end
 
@@ -75,6 +78,62 @@ class Enigma
       end
     end
     return decrypted_array.join("")
+  end
+
+  def find_last_four_encrypted_characters(encrypted_message)
+    encrypted_message_split = split_message_every_four_characters(encrypted_message)
+    if encrypted_message_split[-1].length == 4
+      last_full_block = encrypted_message_split[-1]
+    else
+      last_full_block = encrypted_message_split[-2]
+    end
+    return last_full_block
+  end
+
+  def find_last_four_decrypted_characters(encrypted_message)
+    encrypted_message_split = split_message_every_four_characters(encrypted_message)
+    if encrypted_message_split[-1].length == 3
+      decrypted_ending = [".", ".", "e", "n"]
+    elsif encrypted_message_split[-1].length == 2
+      decrypted_ending = [".", "e", "n", "d"]
+    elsif encrypted_message_split[-1].length == 1
+      decrypted_ending = ["e", "n", "d", "."]
+    else
+      decrypted_ending = ["n", "d", ".", "."]
+    end
+    return decrypted_ending
+  end
+
+  def crack_shifts(encrypted_message)
+    shifts = []
+    create_character_map
+    last_four_encrypted = find_last_four_encrypted_characters(encrypted_message)
+    last_four_decrypted = find_last_four_decrypted_characters(encrypted_message)
+
+    last_four_encrypted.each_with_index do |character, i|
+      decrypted_index = @character_map.index(last_four_decrypted[i])
+      rotated_character_map = @character_map.rotate(decrypted_index)
+      encrypted_index = rotated_character_map.index(last_four_encrypted[i])
+      shifts << encrypted_index
+    end
+     return shifts
+  end
+
+  def crack(encrypted_message)
+    shifts = crack_shifts(encrypted_message)
+    cracked_array = []
+    character_map_reversed = create_character_map.reverse
+    split_message = split_message_every_four_characters(encrypted_message)
+
+    split_message.each do |four_characters|
+      four_characters.each_with_index do |character, index|
+        starting_index = character_map_reversed.index(four_characters[index])
+        rotated_character_map = character_map_reversed.rotate(starting_index)
+        cracked_index = starting_index + shifts[index]
+        cracked_array << character_map_reversed[cracked_index]
+      end
+    end
+    return cracked_array.join("")
   end
 
 end
