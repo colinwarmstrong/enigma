@@ -9,27 +9,20 @@ class KeyGeneratorTest < Minitest::Test
     assert_instance_of KeyGenerator, key_generator
   end
 
-  def test_key_generator_has_a_length_of_five
+  def test_key_has_a_length_of_five
     key_generator = KeyGenerator.new
 
-    assert_equal 5, key_generator.key_length
-    assert_instance_of Integer, key_generator.key_length
-    # is it unecessary?
+    assert_equal 5, key_generator.generate_key.length
   end
 
   def test_it_can_generate_a_random_number_1_to_9
-    # adding cannot be 0 in that test directly
     key_generator = KeyGenerator.new
 
-    assert_instance_of Array, key_generator.generate_random_number
-  end
-
-  def test_it_can_define_4_rotations_when_passed_a_key
-    key_generator = KeyGenerator.new
-
-    rotations = key_generator.define_rotations
-    assert_equal 4, rotations.length
-    assert_instance_of Integer, rotations[0]
+    key = key_generator.generate_key
+    assert_instance_of Array, key
+    assert key[0].between?(0, 10)
+    assert key[3].between?(0, 10)
+    refute key.include?(0)
   end
 
 end
