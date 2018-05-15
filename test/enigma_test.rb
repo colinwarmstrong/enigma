@@ -4,48 +4,51 @@ require './lib/enigma.rb'
 class EnigmaTest < Minitest::Test
 
   def test_it_exists
-    rotations = [2, 3, 4, 5]
-    offsets = [2, 3, 4, 5]
     enigma = Enigma.new
 
     assert_instance_of Enigma, enigma
   end
 
-  def test_calculating_shift_correctly_adds_rotations_and_offsets
+  def test_can_define_rotations
     enigma = Enigma.new
 
-    assert_equal 4, enigma.calculating_shifts.count
-    assert_instance_of Array, enigma.calculating_shifts
+    assert_equal [12, 23, 34, 45], enigma.define_rotations([1, 2, 3, 4, 5])
+  end
+
+  def test_calculating_shift_correctly_adds_rotations_and_offsets
+    key = [1, 2, 3, 4, 5]
+    date = 150518
+    enigma = Enigma.new(key, date)
+
+    assert_equal [20, 26, 36, 49], enigma.calculating_shifts
   end
 
   def test_has_character_map
     enigma = Enigma.new
     character_map = enigma.create_character_map
 
-    assert character_map.include?("a")
-    assert character_map.include?("8")
-    assert character_map.include?(",")
-    assert character_map.include?("B")
-    assert_equal 255, character_map.length
+    assert character_map.include?('a')
+    assert character_map.include?('8')
+    assert character_map.include?(',')
+    assert character_map.include?('B')
+    assert_equal 85, character_map.length
   end
 
   def test_can_split_message_into_four_characters
     message = "Hello1!"
     enigma = Enigma.new
+
     split_message = enigma.split_message_every_four_characters(message)
     assert_equal 4, split_message[0].length
   end
 
   def test_can_encrypt_a_message
-    message = "Hello1!"
-    enigma = Enigma.new
+    message1 = "Hello1!..end.."
+    message2 = "wElcOme$$#%..end.."
+    enigma = Enigma.new([1, 2, 1, 2, 1], 150518)
 
-    assert_equal 7, enigma.encrypt(message).length
-    assert_instance_of String, enigma.encrypt(message)
-  end
-
-  def test_can_a_different_message
-    # is this redundant or helpful?
+    assert_equal "1CzKI<<qlCBClp", enigma.encrypt(message1)
+    assert_equal "Q2zB8Ksgbe/qlCBClp", enigma.encrypt(message2)
   end
 
   def test_can_decrypt_a_message
@@ -101,6 +104,5 @@ class EnigmaTest < Minitest::Test
 
     assert_equal 5, enigma.convert_rotations_to_key(encrypted_message)
   end
-
 
 end

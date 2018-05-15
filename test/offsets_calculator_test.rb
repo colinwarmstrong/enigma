@@ -10,13 +10,6 @@ class OffsetsCalculatorTest < Minitest::Test
     assert_instance_of OffsetsCalculator, offsets_calculator
   end
 
-  def test_correct_date_format
-    offsets_calculator = OffsetsCalculator.new
-
-    assert_instance_of Integer, offsets_calculator.date
-    assert_equal 6, offsets_calculator.date.digits.length
-  end
-
   def test_it_can_square_numeric_date
     offsets_calculator = OffsetsCalculator.new
     numeric_date1 = 150_218
@@ -27,11 +20,11 @@ class OffsetsCalculatorTest < Minitest::Test
   end
 
   def test_define_offsets
-    offsets_calculator1 = OffsetsCalculator.new(150218)
-    offsets_calculator2 = OffsetsCalculator.new(140706)
+    offsets_calculator1 = OffsetsCalculator.new
+    offsets_calculator2 = OffsetsCalculator.new
 
-    assert_equal [7, 5, 2, 4], offsets_calculator1.define_offsets
-    assert_equal [8, 4, 3, 6], offsets_calculator2.define_offsets
+    assert_equal [7, 5, 2, 4], offsets_calculator1.define_offsets(150218)
+    assert_equal [8, 4, 3, 6], offsets_calculator2.define_offsets(140706)
   end
 
 end
