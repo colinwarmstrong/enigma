@@ -13,7 +13,7 @@ require 'pry'
 # offsets = offsets_calculator.define_offsets
 
 e = Enigma.new
-encrypted_message = e.encrypt("Welcome12$$..end..")
-# p encrypted_message
-# p e.decrypt(encrypted_message)
+encrypted_message = e.encrypt("Hello1! ..end..")
+p encrypted_message
+p e.decrypt(encrypted_message)
 p e.crack(encrypted_message)
