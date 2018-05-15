@@ -73,21 +73,24 @@ class Enigma
     encrypt_each_character(shifts, split_message)
   end
 
-
-  def decrypt(encrypted_message)
+  def decrypt_each_character(shifts, split_message)
     decrypted_array = []
-    character_map_reversed = create_character_map.reverse
-    shifts = calculating_shifts
-    split_message = split_message_every_four_characters(encrypted_message)
-
     split_message.each do |four_characters|
       four_characters.each_with_index do |character, index|
-        starting_index = character_map_reversed.index(four_characters[index])
-        decrypted_index = starting_index + shifts[index]
-        decrypted_array << character_map_reversed[decrypted_index]
+        encrypted_index = @character_map.index(character)
+        rotated_character_map = @character_map.rotate(-shifts[index])
+        unencrypted_character = rotated_character_map[encrypted_index]
+        decrypted_array << unencrypted_character
       end
     end
     return decrypted_array.join("")
+  end
+
+  def decrypt(encrypted_message)
+    create_character_map
+    shifts = calculating_shifts
+    split_message = split_message_every_four_characters(encrypted_message)
+    decrypt_each_character(shifts, split_message)
   end
 
   def find_last_four_encrypted_characters(encrypted_message)

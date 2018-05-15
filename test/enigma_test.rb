@@ -52,11 +52,13 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_can_decrypt_a_message
-    encrypted_message = "Hello1!..end.."
-    enigma = Enigma.new
+    encrypted_message1 = "1CzKI<<qlCBClp"
+    encrypted_message2 = "Q2zB8Ksgbe/qlCBClp"
+    enigma = Enigma.new([1, 2, 1, 2, 1], 150518)
 
-    assert_equal 14, enigma.decrypt(encrypted_message).length
-    assert_instance_of String, enigma.decrypt(encrypted_message)
+    assert_equal "Hello1!..end..", enigma.decrypt(encrypted_message1)
+    assert_equal "wElcOme$$#%..end..", enigma.decrypt(encrypted_message2)
+
   end
 
   def test_knowing_length_of_last_block_of_characters
