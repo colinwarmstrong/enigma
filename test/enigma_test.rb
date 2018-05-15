@@ -88,5 +88,19 @@ class EnigmaTest < Minitest::Test
     assert_equal enigma.decrypt(encrypted_message), enigma.crack(encrypted_message)
   end
 
+  def test_can_discover_rotations_array
+    enigma = Enigma.new
+    encrypted_message = enigma.encrypt("Hello1!..end..")
+
+    assert_equal 4, enigma.discover_rotations(encrypted_message).length
+  end
+
+  def convert_rotations_array_into_5_digits_key
+    enigma = Enigma.new
+    encrypted_message = enigma.encrypt("Hello1!..end..")
+
+    assert_equal 5, enigma.convert_rotations_to_key(encrypted_message)
+  end
+
 
 end

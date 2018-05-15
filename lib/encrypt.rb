@@ -6,7 +6,7 @@ arguments = ARGV
 message_file = arguments[0]
 encrypt_file = arguments[1]
 
-message = File.read(message_file).strip
+message = File.read(message_file).delete("\n")
 
 encrypted_file = File.open(encrypt_file, 'w')
 

@@ -18,6 +18,7 @@ class KeyGeneratorTest < Minitest::Test
   end
 
   def test_it_can_generate_a_random_number_1_to_9
+    # adding cannot be 0 in that test directly
     key_generator = KeyGenerator.new
 
     assert_instance_of Array, key_generator.generate_random_number
