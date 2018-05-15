@@ -4,24 +4,20 @@ require 'date'
 require 'pry'
 
 class Enigma
-  attr_reader :key
 
-  def initialize(key = KeyGenerator.new.generate_key, date = Date.today)
-    @key = key.chars
+  def initialize(key = KeyGenerator.new.generate_key, date = Date.today.strftime("%d%m%y").to_i)
     @date = date
-    @rotations = define_rotations
-    @offsets = OffsetsCalculator.new.define_offsets
+    @rotations = define_rotations(key)
+    @offsets = OffsetsCalculator.new.define_offsets(date)
     @character_map = []
   end
 
-  def define_rotations
-    rotations = []
-    @key.each_with_index do |digit, index|
-      rotation = @key[index..index + 1].join.to_i
-      rotations << rotation
-    end
-    rotations.pop
-    return rotations
+  def define_rotations(key)
+    rotation_array = key.map.with_index do |digit, index|
+                      key[index..index + 1].join.to_i
+                    end
+    rotation_array.pop
+    return rotation_array
   end
 
   def calculating_shifts
@@ -33,25 +29,19 @@ class Enigma
   end
 
   def create_character_map
-    single_character_map = []
     ("a".."z").each do |lowercase_letter|
-      single_character_map << lowercase_letter
+      @character_map << lowercase_letter
     end
     ("A".."Z").each do |uppercase_letter|
-      single_character_map << uppercase_letter
+      @character_map << uppercase_letter
     end
     ("0".."9").each do |number|
-      single_character_map << number
+      @character_map << number
     end
-    single_character_map << [' ', '!', '@', '#', '$', '%', '^', '&']
-    single_character_map << ['*', '(', ')', '[', ']', ',', '.', '<']
-    single_character_map << ['>', ';', ':', '/', '?', "\\", '|' ]
-    single_character_map.flatten!
-    3.times do
-      @character_map << single_character_map
-    end
+    @character_map << [' ', '!', '@', '#', '$', '%', '^', '&']
+    @character_map << ['*', '(', ')', '[', ']', ',', '.', '<']
+    @character_map << ['>', ';', ':', '/', '?', "\\", '|' ]
     @character_map.flatten!
-    # revisit maybe use rotate method on array
   end
 
   def split_message_every_four_characters(message)
@@ -63,36 +53,44 @@ class Enigma
     return split_message
   end
 
-  def encrypt(message)
-    encrypted_array = []
-    create_character_map
-    shifts = calculating_shifts
-    split_message = split_message_every_four_characters(message)
-
+  def encrypt_each_character(shifts, split_message)
+    encrypted_array = Array.new
     split_message.each do |four_characters|
       four_characters.each_with_index do |character, index|
-        starting_index = @character_map.index(character)
-        encrypted_index = starting_index + shifts[index]
-        encrypted_array << @character_map[encrypted_index]
+        unencrypted_index = @character_map.index(character)
+        rotated_character_map = @character_map.rotate(shifts[index])
+        encrypted_character = rotated_character_map[unencrypted_index]
+        encrypted_array << encrypted_character
       end
     end
     return encrypted_array.join("")
   end
 
-  def decrypt(encrypted_message)
-    decrypted_array = []
-    character_map_reversed = create_character_map.reverse
+  def encrypt(message)
+    create_character_map
     shifts = calculating_shifts
-    split_message = split_message_every_four_characters(encrypted_message)
+    split_message = split_message_every_four_characters(message)
+    encrypt_each_character(shifts, split_message)
+  end
 
+  def decrypt_each_character(shifts, split_message)
+    decrypted_array = []
     split_message.each do |four_characters|
       four_characters.each_with_index do |character, index|
-        starting_index = character_map_reversed.index(four_characters[index])
-        decrypted_index = starting_index + shifts[index]
-        decrypted_array << character_map_reversed[decrypted_index]
+        encrypted_index = @character_map.index(character)
+        rotated_character_map = @character_map.rotate(-shifts[index])
+        unencrypted_character = rotated_character_map[encrypted_index]
+        decrypted_array << unencrypted_character
       end
     end
     return decrypted_array.join("")
+  end
+
+  def decrypt(encrypted_message)
+    create_character_map
+    shifts = calculating_shifts
+    split_message = split_message_every_four_characters(encrypted_message)
+    decrypt_each_character(shifts, split_message)
   end
 
   def find_last_four_encrypted_characters(encrypted_message)

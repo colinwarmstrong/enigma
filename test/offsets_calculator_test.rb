@@ -10,32 +10,21 @@ class OffsetsCalculatorTest < Minitest::Test
     assert_instance_of OffsetsCalculator, offsets_calculator
   end
 
-  def test_format_date_to_numeric_returns_date_in_correct_form
-    offsets_calculator = OffsetsCalculator.new
-
-    date_in_numeric_form = offsets_calculator.format_date_to_numeric
-    assert_equal 6, date_in_numeric_form.digits.length
-    assert_instance_of Integer, date_in_numeric_form
-  end
-
   def test_it_can_square_numeric_date
     offsets_calculator = OffsetsCalculator.new
-    numeric_date = 150218
+    numeric_date1 = 150_218
+    numeric_date2 = 140_706
 
-    assert_equal 22565447524, offsets_calculator.square_numeric_date(numeric_date)
+    assert_equal 22_565_447_524, offsets_calculator.square_numeric_date(numeric_date1)
+    assert_equal 19_798_178_436, offsets_calculator.square_numeric_date(numeric_date2)
   end
 
-  def test_if_we_can_find_last_four_digits_of_numeric
-    offsets_calculator = OffsetsCalculator.new
+  def test_define_offsets
+    offsets_calculator1 = OffsetsCalculator.new
+    offsets_calculator2 = OffsetsCalculator.new
 
-    assert_equal ['2', '3', '4', '1'], offsets_calculator.find_last_four_digits_of_squared_numeric(92341)
-  end
-
-  def test_if_we_return_correct_offsets
-    offsets_calculator = OffsetsCalculator.new
-
-    assert_instance_of Array, offsets_calculator.define_offsets
-    assert_equal 4, offsets_calculator.define_offsets.count
+    assert_equal [7, 5, 2, 4], offsets_calculator1.define_offsets(150218)
+    assert_equal [8, 4, 3, 6], offsets_calculator2.define_offsets(140706)
   end
 
 end
