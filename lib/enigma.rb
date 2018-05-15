@@ -4,10 +4,10 @@ require 'date'
 require 'pry'
 
 class Enigma
+  attr_reader :key
 
   def initialize(key = KeyGenerator.new.generate_key, date = Date.today)
     @key = key.chars
-    # binding.pry
     @date = date
     @rotations = define_rotations
     @offsets = OffsetsCalculator.new.define_offsets
@@ -68,12 +68,10 @@ class Enigma
     create_character_map
     shifts = calculating_shifts
     split_message = split_message_every_four_characters(message)
-    # binding.pry
 
     split_message.each do |four_characters|
       four_characters.each_with_index do |character, index|
         starting_index = @character_map.index(character)
-        # binding.pry
         encrypted_index = starting_index + shifts[index]
         encrypted_array << @character_map[encrypted_index]
       end
@@ -138,6 +136,7 @@ class Enigma
 
   def crack(encrypted_message)
     shifts = crack_shifts(encrypted_message)
+    convert_rotations_to_key(encrypted_message)
     cracked_array = []
     character_map_reversed = create_character_map.reverse
     split_message = split_message_every_four_characters(encrypted_message)
@@ -153,4 +152,22 @@ class Enigma
     return cracked_array.join("")
   end
 
+  def discover_rotations(encrypted_message)
+    find_shift = crack_shifts(encrypted_message)
+    rotations_array = []
+    find_shift.each_with_index do |shift, index|
+        if shift - @offsets[index] < 11
+          rotations_array << (shift - @offsets[index]) + 85
+        else
+          rotations_array << shift - @offsets[index]
+        end
+    end
+    return rotations_array
+  end
+
+  def convert_rotations_to_key(encrypted_message)
+    rotation_arr = discover_rotations(encrypted_message)
+    rotation_string = rotation_arr.join('')
+    @key = rotation_string[0..1] + rotation_string[3] + rotation_string[6..7]
+  end
 end
