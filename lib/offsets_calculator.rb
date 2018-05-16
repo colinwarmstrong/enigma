@@ -7,8 +7,8 @@ class OffsetsCalculator
   end
 
   def define_offsets(date = Date.today.strftime("%d%m%y").to_i)
-    square_num = square_numeric_date(date)
-    squared_numeric_array = square_num.digits.reverse
+    square_numeric = square_numeric_date(date)
+    squared_numeric_array = square_numeric.digits.reverse
     offsets = squared_numeric_array[-4..-1]
     return offsets
   end
