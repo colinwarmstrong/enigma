@@ -13,8 +13,8 @@ decrypt_file = File.open(decrypt_file_name, 'w')
 key = key_string.to_i.digits.reverse
 date = date_string.to_i
 
-e = Enigma.new(key, date)
-decrypted_message = e.decrypt(encrypted_message)
+e = Enigma.new
+decrypted_message = e.decrypt(encrypted_message, key, date)
 
 decrypt_file.write(decrypted_message)
 
