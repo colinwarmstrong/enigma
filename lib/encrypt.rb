@@ -11,7 +11,7 @@ encrypt_file = File.open(encrypt_file_name, 'w')
 
 key = KeyGenerator.new.generate_key
 key_string = key.join("")
-encrypted_message = Enigma.new(key).encrypt(message)
+encrypted_message = Enigma.new.encrypt(message, key)
 
 encrypt_file.write(encrypted_message)
 

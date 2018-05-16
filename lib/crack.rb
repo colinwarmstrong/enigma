@@ -11,9 +11,9 @@ crack_file = File.open(crack_file_name, "w")
 
 date = date_string.to_i
 
-e = Enigma.new([], date)
+e = Enigma.new
 cracked_message = e.crack(encrypted_message)
-key = e.convert_rotations_to_key(encrypted_message)
+key = e.convert_rotations_to_key(encrypted_message, date)
 
 crack_file.write(cracked_message)
 
