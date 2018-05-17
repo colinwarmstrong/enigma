@@ -10,9 +10,8 @@ message = File.read(message_file_name).strip
 encrypt_file = File.open(encrypt_file_name, 'w')
 
 key = KeyGenerator.new.generate_key
-key_string = key.join("")
 encrypted_message = Enigma.new.encrypt(message, key)
 
 encrypt_file.write(encrypted_message)
 
-puts "Created '#{encrypt_file_name}' with the key #{key_string} and date #{Date.today.strftime('%d%m%y')}"
+puts "Created '#{encrypt_file_name}' with the key #{key} and date #{Date.today.strftime('%d%m%y')}"

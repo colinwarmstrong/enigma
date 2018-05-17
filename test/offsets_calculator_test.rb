@@ -23,8 +23,8 @@ class OffsetsCalculatorTest < Minitest::Test
     offsets_calculator1 = OffsetsCalculator.new
     offsets_calculator2 = OffsetsCalculator.new
 
-    assert_equal [7, 5, 2, 4], offsets_calculator1.define_offsets(150218)
-    assert_equal [8, 4, 3, 6], offsets_calculator2.define_offsets(140706)
+    assert_equal [7, 5, 2, 4], offsets_calculator1.define_offsets(150_218)
+    assert_equal [8, 4, 3, 6], offsets_calculator2.define_offsets(140_706)
   end
 
 end
