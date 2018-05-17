@@ -19,10 +19,10 @@ class KeyGeneratorTest < Minitest::Test
     key_generator = KeyGenerator.new
 
     key = key_generator.generate_key
-    assert_instance_of Array, key
-    assert key[0].between?(0, 10)
-    assert key[3].between?(0, 10)
-    refute key.include?(0)
+    assert_instance_of String, key
+    assert key[0].to_i.between?(0, 10)
+    assert key[3].to_i.between?(0, 10)
+    refute key.include?('0')
   end
 
 end

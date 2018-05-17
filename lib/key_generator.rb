@@ -5,7 +5,7 @@ class KeyGenerator
     5.times do
       key << rand(1..9)
     end
-    return key
+    return key.join('')
   end
 
 end

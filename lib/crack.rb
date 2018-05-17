@@ -7,7 +7,7 @@ crack_file_name = arguments[1]
 date_string = arguments[2]
 
 encrypted_message = File.read(encrypt_file_name).strip
-crack_file = File.open(crack_file_name, "w")
+crack_file = File.open(crack_file_name, 'w')
 
 date = date_string.to_i
 
