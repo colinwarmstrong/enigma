@@ -2,7 +2,6 @@ require './test/test_helper'
 require './lib/key_generator'
 
 class KeyGeneratorTest < Minitest::Test
-
   def test_it_exists
     key_generator = KeyGenerator.new
 
@@ -24,5 +23,4 @@ class KeyGeneratorTest < Minitest::Test
     assert key[3].to_i.between?(0, 10)
     refute key.include?('0')
   end
-
 end

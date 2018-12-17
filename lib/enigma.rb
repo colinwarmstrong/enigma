@@ -3,7 +3,6 @@ require './lib/offsets_calculator'
 require 'date'
 
 class Enigma
-
   def initialize
     @character_map = create_character_map
   end
@@ -23,7 +22,7 @@ class Enigma
     key.map!.with_index do |_, index|
       key[index..index + 1].join.to_i
     end.pop
-    return key
+    key
   end
 
   def calculate_shifts(rotations, offsets)
@@ -35,10 +34,8 @@ class Enigma
   def split_message_every_four_characters(message)
     split_message = []
     message_array = message.split('')
-    while message_array.length != 0
-      split_message << message_array.shift(4)
-    end
-    return split_message
+    split_message << message_array.shift(4) until message_array.empty?
+    split_message
   end
 
   def shift_each_character(shifts, split_message)
@@ -56,7 +53,7 @@ class Enigma
     offsets = OffsetsCalculator.new.define_offsets(date.to_i)
     shifts = calculate_shifts(rotations, offsets)
     split_message = split_message_every_four_characters(message)
-    return shift_each_character(shifts, split_message).join('')
+    shift_each_character(shifts, split_message).join('')
   end
 
   def decrypt(encrypted_message, key, date = Date.today.strftime('%d%m%y'))
@@ -64,26 +61,26 @@ class Enigma
     offsets = OffsetsCalculator.new.define_offsets(date.to_i)
     shifts = calculate_shifts(rotations, offsets).map { |shift| shift * -1 }
     split_message = split_message_every_four_characters(encrypted_message)
-    return shift_each_character(shifts, split_message).join('')
+    shift_each_character(shifts, split_message).join('')
   end
 
   def find_last_four_encrypted(split_message)
     if split_message[-1].length == 4
-      return split_message[-1]
+      split_message[-1]
     else
-      return split_message[-2]
+      split_message[-2]
     end
   end
 
   def find_last_four_decrypted(split_message)
     if split_message[-1].length == 3
-      return ['.', '.', 'e', 'n']
+      ['.', '.', 'e', 'n']
     elsif split_message[-1].length == 2
-      return ['.', 'e', 'n', 'd']
+      ['.', 'e', 'n', 'd']
     elsif split_message[-1].length == 1
-      return ['e', 'n', 'd', '.']
+      ['e', 'n', 'd', '.']
     else
-      return ['n', 'd', '.', '.']
+      ['n', 'd', '.', '.']
     end
   end
 
@@ -102,7 +99,7 @@ class Enigma
     last_four_decrypted = find_last_four_decrypted(split_message)
     shifts = crack_shifts(last_four_encrypted, last_four_decrypted)
     shifts.map! { |shift| shift * -1 }
-    return shift_each_character(shifts, split_message).join('')
+    shift_each_character(shifts, split_message).join('')
   end
 
   def crack_rotations(encrypted_message, date)
@@ -112,7 +109,7 @@ class Enigma
     last_four_decrypted = find_last_four_decrypted(split_message)
     shifts = crack_shifts(last_four_encrypted, last_four_decrypted)
     rotations = adjust_rotations(shifts, offsets)
-    return rotations
+    rotations
   end
 
   def adjust_rotations(shifts, offsets)
@@ -129,7 +126,6 @@ class Enigma
     rotation_arr = crack_rotations(encrypted_message, date)
     rotation_string = rotation_arr.join('')
     key = rotation_string[0..1] + rotation_string[3] + rotation_string[6..7]
-    return key
+    key
   end
-
 end

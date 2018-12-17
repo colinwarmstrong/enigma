@@ -3,7 +3,6 @@ require './lib/offsets_calculator.rb'
 require 'date'
 
 class OffsetsCalculatorTest < Minitest::Test
-
   def test_it_exists
     offsets_calculator = OffsetsCalculator.new
 
@@ -26,5 +25,4 @@ class OffsetsCalculatorTest < Minitest::Test
     assert_equal [7, 5, 2, 4], offsets_calculator1.define_offsets(150_218)
     assert_equal [8, 4, 3, 6], offsets_calculator2.define_offsets(140_706)
   end
-
 end

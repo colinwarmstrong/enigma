@@ -2,7 +2,6 @@ require './test/test_helper.rb'
 require './lib/enigma.rb'
 
 class EnigmaTest < Minitest::Test
-
   def test_it_exists
     enigma = Enigma.new
 
@@ -137,5 +136,4 @@ class EnigmaTest < Minitest::Test
     assert_equal '12121', enigma.convert_rotations_to_key(encrypted_message1, 150_518)
     assert_equal '81648', enigma.convert_rotations_to_key(encrypted_message2, 150_518)
   end
-
 end
